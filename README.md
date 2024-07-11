@@ -1,2 +1,2 @@
-# numerology
-Numerological calculator
+# personal-energy
+Personal energy chart
