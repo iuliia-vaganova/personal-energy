@@ -60,20 +60,6 @@ module.exports = {
           },
         ],
       },
-    },
-    {
-      files: './cypress/**/*.+(ts|tsx)',
-      parserOptions: {
-        project: './cypress/tsconfig.json',
-      },
-      env: {
-        'cypress/globals': true,
-      },
-      plugins: ['eslint-plugin-cypress'],
-      extends: ['plugin:cypress/recommended'],
-      rules: {
-        '@typescript-eslint/no-namespace': 'off',
-      },
-    },
+    }
   ],
 };

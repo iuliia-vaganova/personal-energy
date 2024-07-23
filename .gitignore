@@ -4,10 +4,6 @@ node_modules/
 # Compiled output
 dist/
 
-# Cypress
-cypress/videos/
-cypress/screenshots/
-
 # Coverage directory used by tools like istanbul
 coverage/
 

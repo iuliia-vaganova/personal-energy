@@ -40,5 +40,5 @@
       "module": "CommonJS"
     }
   },
-  "exclude": ["node_modules", "cypress", "cache"]
+  "exclude": ["node_modules", "cache"]
 }
