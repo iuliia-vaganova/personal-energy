@@ -10,8 +10,8 @@ export const App = (): React.ReactElement => (
     <Stack spacing={3} sx={{paddingBottom: 3}}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h5" color="inherit" component="div">
-            Нумерология
+          <Typography variant="h6" color="inherit" component="div">
+            График личной энергии
           </Typography>
         </Toolbar>
       </AppBar>

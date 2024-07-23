@@ -1,13 +1,10 @@
 import React from 'react';
 import {Box, Stack, TextField} from '@mui/material';
 import {DatePicker} from '@mui/lab';
-import {LifePathNumber} from './LifePathNumber';
 import {PersonalEnergy} from './PersonalEnergy';
 import {MAX_BIRTH_DATE, MIN_BIRTH_DATE} from '../constants';
 import {NullableDate} from '../types';
 import {isValidBirthDate} from '../utils';
-import {CharacterRing} from './CharacterRing';
-import {LifeCycle} from './LifeCycle';
 
 export const Calculator = (): React.ReactElement => {
   const [birthDate, setBirthDate] = React.useState<NullableDate>(null);
@@ -36,10 +33,7 @@ export const Calculator = (): React.ReactElement => {
       </Box>
       {birthDate && isValidBirthDate(birthDate) ? (
         <Stack spacing={2}>
-          <LifePathNumber birthDate={birthDate} />
-          <CharacterRing birthDate={birthDate} />
           <PersonalEnergy birthDate={birthDate} />
-          <LifeCycle birthDate={birthDate} />
         </Stack>
       ) : null}
     </Stack>

@@ -5,6 +5,6 @@ export const CURRENT_YEAR = now.getFullYear();
 
 export const COLORS = {
   background: '#ffffff',
-  primary: '#00838f',
+  primary: '#8f5a28',
   secondary: '#f50057',
 };
