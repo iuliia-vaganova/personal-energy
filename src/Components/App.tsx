@@ -1,22 +1,43 @@
 import React from 'react';
-import {AppBar, Stack, Toolbar, Typography} from '@mui/material';
-import {LocalizationProvider} from '@mui/lab';
-import ruLocale from 'date-fns/locale/ru';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import {Calculator} from './Calculator';
+import {Box, Stack, TextField} from '@mui/material';
+import {DatePicker} from '@mui/lab';
+import {isValid, isBefore, isAfter} from 'date-fns';
+import { MAX_BIRTH_DATE, MIN_BIRTH_DATE } from '../constants';
+import { PersonalEnergyChart } from './PersonalEnergyChart';
 
-export const App = (): React.ReactElement => (
-  <LocalizationProvider dateAdapter={AdapterDateFns} locale={ruLocale}>
-    <Stack spacing={3} sx={{paddingBottom: 3}}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" color="inherit" component="div">
-            График личной энергии
-          </Typography>
-        </Toolbar>
-      </AppBar>
+const isValidBirthDate = (date: Date): boolean =>
+  isValid(date) && !isBefore(date, MIN_BIRTH_DATE) && !isAfter(date, MAX_BIRTH_DATE);
 
-      <Calculator />
+export const App = () => {
+  const [birthDate, setBirthDate] = React.useState<Date | null>(null);
+
+  return (
+    <Stack spacing={2} sx={{p: {xs: 2, sm: 3}}}>
+      <Box>
+        <DatePicker
+          disableFuture
+          label="Дата рождения"
+          cancelText={null}
+          okText="Закрыть"
+          mask="__.__.____"
+          openTo="year"
+          views={['year', 'month', 'day']}
+          value={birthDate}
+          minDate={MIN_BIRTH_DATE}
+          maxDate={MAX_BIRTH_DATE}
+          onChange={(date) => {
+            setBirthDate(date);
+          }}
+          renderInput={(params) => (
+            <TextField {...params} inputProps={{...params.inputProps, placeholder: 'дд.мм.гггг'}} />
+          )}
+        />
+      </Box>
+      {birthDate && isValidBirthDate(birthDate) ? (
+        <Stack spacing={2}>
+          <PersonalEnergyChart birthDate={birthDate} />
+        </Stack>
+      ) : null}
     </Stack>
-  </LocalizationProvider>
-);
+  );
+};
