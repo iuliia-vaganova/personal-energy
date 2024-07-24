@@ -3,8 +3,6 @@ import {Box} from '@mui/material';
 import {Area, AreaChart, Brush, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import {COLORS, CURRENT_YEAR} from '../constants';
 
-const YEARS_COUNT = 101;
-
 const getEnergyNumbers = (birthDate: Date): number[] => {
   const year = birthDate.getFullYear();
   const product = (birthDate.getDate() * 100 + birthDate.getMonth() + 1) * year;
@@ -35,37 +33,35 @@ const getEnergyNumbers = (birthDate: Date): number[] => {
   return energyNumbers;
 };
 
-const groupEnergiesByYears = (birthYear: number, energyNumbers: number[]) => {
+const groupEnergyByYears = (birthYear: number, energyNumbers: number[], yearCount: number) => {
   if (!birthYear) {
     return [];
   }
 
-  return Array.from({length: YEARS_COUNT}, (_, i) => ({year: birthYear + i, energie: energyNumbers[i % 7]}));
+  return Array.from({length: yearCount}, (_, i) => ({year: birthYear + i, energie: energyNumbers[i % 7]}));
 };
 
 export const PersonalEnergyChart = ({birthDate}: {birthDate: Date}) => {
   const energieNumbers = getEnergyNumbers(birthDate);
   const birthYear = birthDate.getFullYear();
-  const energiesByYears = groupEnergiesByYears(birthYear, energieNumbers);
+  const yearCount = CURRENT_YEAR - birthYear < 5 ? 7 : CURRENT_YEAR - birthYear + 3;
+  const energyByYears = groupEnergyByYears(birthYear,energieNumbers, yearCount);
 
-  let startIndex, endIndex;
-  if (birthYear){
-    let startYear = CURRENT_YEAR - 3;
-    if (startYear < birthYear){
-      startYear = birthYear
-    }
-    if (startYear > birthYear + YEARS_COUNT - 7)
-    {
-      startYear = birthYear + YEARS_COUNT - 7
-    }
-    startIndex = startYear - birthYear;
-    endIndex = startIndex + 6;
+  let startYear = CURRENT_YEAR - 3;
+  if (startYear < birthYear){
+    startYear = birthYear
   }
+  if (startYear > birthYear + yearCount - 7)
+  {
+    startYear = birthYear + yearCount - 7
+  }
+  const startIndex = startYear - birthYear;
+  const endIndex = startIndex + 6;
 
-  return !energiesByYears.length ? null : (
+  return !energyByYears.length ? null : (
     <Box sx={{width:"100%", maxWidth: "1000px", height: "350px"}}>
       <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={energiesByYears} margin={{top: 10, right: 30, left: -40, bottom: 0}}>
+      <AreaChart data={energyByYears} margin={{top: 10, right: 30, left: -40, bottom: 0}}>
         <defs>
           <linearGradient id="colorEnergie" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8} />
